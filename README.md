@@ -1,2 +1,2 @@
-# Font-end by Pisit
-# Back-end by Panuwat
+# Font-end by Pisit Ponglapatwoachai
+# Back-end by Panuwat Anu
