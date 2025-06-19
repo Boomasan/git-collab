@@ -17,7 +17,7 @@ const Rooms = [
 
 app.get('/Rooms', (req, res) => {
   res.json(Rooms);
-});
+})
 
 app.get('/Rooms/:id', (req, res) => {
   const Roomid = parseInt(req.params,id)
@@ -30,6 +30,40 @@ app.get('/Rooms/:id', (req, res) => {
   }
 })
 
+// POST - เพิ่มห้องใหม่
+app.post('/Rooms', (req, res) => {
+  const newId = Math.max(...Rooms.map(r => r.id)) + 1
+  const newRoom = { id: newId, ...req.body }
+  Rooms.push(newRoom)
+  res.status(201).json(newRoom)
+})
+
+// PUT - แก้ไขห้อง
+app.put('/Rooms/:id', (req, res) => {
+  const Roomid = parseInt(req.params.id)
+  const index = Rooms.findIndex(r => r.id === Roomid)
+  
+  if (index !== -1) {
+    Rooms[index] = { id: Roomid, ...req.body }
+    res.json(Rooms[index])
+  } else {
+    res.status(404).send("ไม่พบห้องที่ระบุ")
+  }
+})
+
+// DELETE - ลบห้อง
+app.delete('/Rooms/:id', (req, res) => {
+  const Roomid = parseInt(req.params.id)
+  const index = Rooms.findIndex(r => r.id === Roomid)
+  
+  if (index !== -1) {
+    const deletedRoom = Rooms.splice(index, 1)[0]
+    res.json(deletedRoom)
+  } else {
+    res.status(404).send("ไม่พบห้องที่ระบุ")
+  }
+})
+
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+  console.log(`Example app listening at http://localhost:${port}`)
+})
